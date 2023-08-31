@@ -10,44 +10,6 @@ import br.com.fiap.domain.entity.*;
         import java.time.LocalDate;
 import java.util.List;
 
-//public class Main {
-//
-//    public static void main(String[] args) {
-//        EntityManagerFactory factory = Persistence.createEntityManagerFactory("oracle");
-//        EntityManager manager = factory.createEntityManager();
-//
-//        try {
-//            
-//
-//            // Populando a tabela de Departamentos
-//            Departamento departamento = new Departamento(null, "Departamento B");
-//            manager.persist(departamento);
-//
-//            // Populando a tabela de TipoDeBem
-//            TipoDeBem tipoDeBem = new TipoDeBem(null, "Tipo C");
-//            manager.persist(tipoDeBem);
-//
-//            // Criando e associando um Inventario com Departamento
-//            Inventario inventario = new Inventario(null, departamento, LocalDate.now(), LocalDate.now().plusDays(7), "Relatório");
-//            manager.persist(inventario);
-//
-//            // Criando um Bem com TipoDeBem, etiqueta e associando com o Inventario e Departamento
-//            Bem bem = new Bem(null, "Bem C", tipoDeBem, "Etiqueta 12345", departamento.getId(), LocalDate.now());
-//            manager.persist(bem);
-//
-//            manager.getTransaction().commit();
-//
-//            System.out.println("Dados inseridos com sucesso!");
-//
-//        } catch (Exception e) {
-//            System.out.println("Erro ao inserir dados: " + e);
-//        } finally {
-//            factory.close();
-//        }
-//    }
-//}
-
-
 public class Main {
     private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("oracle");
     private static EntityManager manager = factory.createEntityManager();
