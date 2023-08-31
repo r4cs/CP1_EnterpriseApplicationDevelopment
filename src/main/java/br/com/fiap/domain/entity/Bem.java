@@ -1,32 +1,57 @@
 package br.com.fiap.domain.entity;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "TB_BEM", uniqueConstraints = {
+        @UniqueConstraint(name = "UK_ETIQUETA_BEM", columnNames = "ETIQUETA_BEM")
+})
 public class Bem {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_BEM")
+    @SequenceGenerator(name = "SQ_BEM", sequenceName = "SQ_BEM")
+    @Column(name = "ID_BEM")
     private Long id;
 
+    @Column(name = "NM_BEM", nullable = false)
     private String nome;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(
+            name = "ID_TIPO_BEM",
+            referencedColumnName = "ID_TIPO_BEM",
+            foreignKey = @ForeignKey(name = "FK_BEM_TIPO_BEM")
+    )
     private TipoDeBem tipo;
 
+    @Column(name = "ETIQUETA_BEM", nullable = false)
     private String etiqueta;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(
+            name = "ID_DEPARTAMENTO",
+            referencedColumnName = "ID_DEPARTAMENTO",
+            foreignKey = @ForeignKey(name = "FK_BEM_DEPARTAMENTO")
+    )
     private Departamento localizacao;
 
+    @Column(name = "DT_BEM")
     private LocalDate aquisicao;
 
 
     public Bem() {
     }
 
-    public Bem(Long id, String nome, TipoDeBem tipo, String etiqueta, Departamento localizacao, LocalDate aquisicao) {
+    public Bem(Long id, String nome, TipoDeBem tipo, String etiqueta, Departamento id_departamento, LocalDate aquisicao) {
         this.id = id;
         this.nome = nome;
         this.tipo = tipo;
         this.etiqueta = etiqueta;
-        this.localizacao = localizacao;
+        this.localizacao = id_departamento;
         this.aquisicao = aquisicao;
     }
 
