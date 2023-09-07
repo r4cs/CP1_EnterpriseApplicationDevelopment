@@ -46,11 +46,8 @@ public class Main {
                 default:
                     System.out.println("Opção inválida.");
                     break;
-
             }
-
         }
-
         manager.close();
         factory.close();
     }
@@ -155,19 +152,36 @@ public class Main {
         // primeiro verifica se departamento ja existe
         TypedQuery<Departamento> query = manager.createQuery("SELECT d FROM Departamento d", Departamento.class);
         List<Departamento> departamentos = query.getResultList();
-        for (Departamento d: departamentos) {
-            if (d.getId() == dep.getId()) {
-                System.out.println("Departamento já cadastrado!");
-                return dep; // retorna o ja cadastrado
+        if (departamentos.isEmpty()) {
+            criarDepartamentos();
+            inserirDepartamento(dep);
+            return null;
+        } else {
+            for (Departamento d: departamentos) {
+                if (d.getId() == dep.getId()) {
+                    System.out.println("Departamento já cadastrado!");
+                    return dep; // retorna o ja cadastrado
+                }
+            }
+            try {
+                manager.persist( dep );
+                System.out.println("departamento: " + dep +" cadastrado.");
+                return dep;
+            } catch (Exception e) {
+                System.out.println("Erro! em inserirDepartamento(): " + e);
+                return null;
             }
         }
-        try {
-            manager.persist( dep );
-            System.out.println("departamento: " + dep +" cadastrado.");
-            return dep;
-        } catch (Exception e) {
-            System.out.println("Erro! em inserirDepartamento(): " + e);
-            return null;
+    }
+
+    private static void criarDepartamentos() {
+        for (EnumDepartamento dep: EnumDepartamento.values()) {
+            try {
+                manager.persist(dep.getDepartamento());
+                System.out.println(dep.getDepartamento());
+            } catch (Exception e) {
+                System.out.println("Erro em criarDepartamentos(): " + e);
+            }
         }
     }
 
